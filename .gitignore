@@ -1,0 +1,22 @@
+# Environment variables
+.env
+backend/.env
+
+# Go build artifacts
+backend/bin/
+backend/tmp/
+*.exe
+
+# Uploads
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Docker volumes (local data)
+postgres_data/
