@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log"
+	"net/http"
+
 	"github.com/DavidZam09/raffle-system/backend/internal/config"
 	"github.com/DavidZam09/raffle-system/backend/internal/database"
 
@@ -11,7 +14,10 @@ func main() {
 
 	cfg := config.Load()
 
-	db := database.New(cfg)
+	db, err := database.New(cfg)
+	if err != nil {
+		log.Fatalf("Error al conectar a la base de datos: %v", err)
+	}
 
 	defer db.Close()
 
@@ -23,5 +29,10 @@ func main() {
 		})
 	})
 
-	router.Run(":" + cfg.AppPort)
+	server := &http.Server{
+		Addr:    ":" + cfg.AppPort,
+		Handler: router,
+	}
+
+	log.Fatal(server.ListenAndServe())
 }
